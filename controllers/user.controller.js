@@ -10,6 +10,7 @@ import { sendEmail } from "../utils/email.js";
 
 // Register
 const registerUser = asyncHandler(async (req, res) => {
+  console.log("RegisterUser called", req.body);
   const { name, email, password, role, customerId } = req.body;
   if (!name || !email || !password || !customerId) {
     throw new ApiError(400, "Missing required fields");
@@ -28,7 +29,11 @@ const registerUser = asyncHandler(async (req, res) => {
     customerId,
   });
 
-  await sendVerificationEmail(user);
+  await sendEmail({
+    to: user.email,
+    subject: "Welcome to Support!",
+    html: `<p>Thank you for registering, ${user.name}!</p>`
+  });
 
   const token = generateJWT({ id: user._id, role: user.role, customerId: user.customerId });
   res.status(201).json(new ApiResponse(201, { token, user }, "User registered"));
@@ -39,9 +44,11 @@ const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
   const user = await User.findOne({ email });
+  console.log('User found:', user);
   if (!user || !user.isActive) throw new ApiError(401, "Invalid email or user inactive");
 
   const isMatch = await bcrypt.compare(password, user.password);
+  console.log('Password match:', isMatch);
   if (!isMatch) throw new ApiError(401, "Invalid credentials");
 
   const token = generateJWT({ id: user._id, role: user.role, customerId: user.customerId });
@@ -147,6 +154,7 @@ export const resetPassword = asyncHandler(async (req, res) => {
 
 // Send Verification Email (on registration)
 export const sendVerificationEmail = async (user) => {
+  console.log("sendVerificationEmail called", user.email);
   const token = crypto.randomBytes(32).toString("hex");
   user.emailVerificationToken = token;
   await user.save();
@@ -160,7 +168,7 @@ export const sendVerificationEmail = async (user) => {
 
 // Verify Email
 export const verifyEmail = asyncHandler(async (req, res) => {
-  const { token } = req.query;
+  const token = req.query.token;
   const user = await User.findOne({ emailVerificationToken: token });
   if (!user) throw new ApiError(400, "Invalid or expired token");
   user.isEmailVerified = true;
