@@ -46,7 +46,8 @@ const loginUser = asyncHandler(async (req, res) => {
   const user = await User.findOne({ email });
   console.log('User found:', user);
   if (!user || !user.isActive) throw new ApiError(401, "Invalid email or user inactive");
-
+  console.log("Entered Password:", password);
+  console.log("Stored Password:", user.password);
   const isMatch = await bcrypt.compare(password, user.password);
   console.log('Password match:', isMatch);
   if (!isMatch) throw new ApiError(401, "Invalid credentials");
