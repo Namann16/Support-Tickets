@@ -5,6 +5,7 @@ import asyncHandler from "../utils/asyncHandler.js";
 
 // Create Ticket (Customer Only)
 const createTicket = asyncHandler(async (req, res) => {
+  console.log("req.user in createTicket:", req.user);
   if (req.user.role !== "customer") {
     throw new ApiError(403, "Only customers can create tickets");
   }

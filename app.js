@@ -1,5 +1,6 @@
-import express from "express";
 import dotenv from "dotenv";
+dotenv.config();
+import express from "express";
 import userRoutes from "./routes/user.routes.js";
 import ticketRoutes from "./routes/ticket.routes.js";
 import { ApiError } from "./utils/ApiError.js";
@@ -8,7 +9,6 @@ import screenRoutes from "./routes/screen.routes.js";
 import helmet from "helmet";
 import rateLimit from "express-rate-limit";
 import mongoSanitize from "express-mongo-sanitize";
-dotenv.config();
 
 const app = express();
 
