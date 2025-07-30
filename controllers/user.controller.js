@@ -3,7 +3,7 @@ import bcrypt from "bcrypt";
 import User from "../models/user.model.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
-import  asyncHandler  from "../utils/asyncHandler.js";
+import asyncHandler from "../utils/asyncHandler.js";
 import { generateJWT } from "../utils/jwt.js"; // Adjust path based on your structure
 import crypto from "crypto";
 import { sendEmail } from "../utils/email.js";

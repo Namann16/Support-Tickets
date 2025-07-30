@@ -7,7 +7,7 @@ dotenv.config();
 describe("Validation Middleware", () => {
   let server;
   beforeAll(async () => {
-    const MONGO_URI = process.env.MONGO_URI || "mongodb://localhost:27017/test-db";
+    const MONGO_URI = process.env.MONGODB_URI || "mongodb://localhost:27017/test-db";
     await mongoose.connect(MONGO_URI);
     server = app.listen(4001);
   });

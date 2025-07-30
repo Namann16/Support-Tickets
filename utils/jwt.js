@@ -3,8 +3,10 @@ dotenv.config(); // Safely load env here too
 
 import jwt from "jsonwebtoken";
 
-const JWT_SECRET = process.env.JWT_SECRET || "your_jwt_secret";
-console.log("JWT_SECRET used to SIGN:", JWT_SECRET);
+const JWT_SECRET = process.env.JWT_SECRET;
+if (!JWT_SECRET) {
+  throw new Error("JWT_SECRET environment variable is required");
+}
 
 export const generateJWT = (payload) => {
   return jwt.sign(payload, JWT_SECRET, { expiresIn: "1h" });

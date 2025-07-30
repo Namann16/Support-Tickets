@@ -47,7 +47,7 @@ const getAllTickets = asyncHandler(async (req, res) => {
 
   const tickets = await Ticket.find({ customerId });
 
-  res.status(200).json(tickets);
+  res.status(200).json(new ApiResponse(200, tickets, "All tickets fetched successfully"));
 });
 
 

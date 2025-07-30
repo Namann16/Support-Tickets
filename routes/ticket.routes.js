@@ -21,10 +21,8 @@ router.use(authMiddleware);
 
 router.post("/", createTicketValidation, validateRequest, createTicket);
 router.get("/me", getMyTickets);
-
 router.get("/filter/params", filterTicketsValidation, validateRequest, filterTickets);
 router.get("/user/:userId", getTicketsByUser);
-
 router.get("/", getAllTickets);
 router.get("/:id", getTicketById);
 router.put("/:id/status", updateTicketStatusValidation, validateRequest, updateTicketStatus);

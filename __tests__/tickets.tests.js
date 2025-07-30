@@ -1,3 +1,6 @@
+import dotenv from "dotenv";
+dotenv.config();
+
 import request from "supertest";
 import app from "../app";
 import mongoose from "mongoose";
@@ -5,8 +8,6 @@ import jwt from "jsonwebtoken";
 import Ticket from "../models/ticket.model.js";
 import User from "../models/user.model.js";
 
-import dotenv from "dotenv";
-dotenv.config();
 
 describe("Tenant Data Isolation", () => {
   let server;
@@ -14,8 +15,8 @@ describe("Tenant Data Isolation", () => {
   let tenantAUserToken, tenantBUserToken;
 
   beforeAll(async () => {
-    const MONGO_URI = process.env.MONGO_URI || "mongodb://localhost:27017/test-db";
-    await mongoose.connect(MONGO_URI);
+    const MONGO_URI = process.env.MONGODB_URI || "mongodb://localhost:27017/test-db";
+    await mongoose.connect(MONGODB_URI);
     server = app.listen(4000);
   });
 
